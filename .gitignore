@@ -1,0 +1,4 @@
+/node_modules
+/.env
+/react-ui/node_modules
+/test.js

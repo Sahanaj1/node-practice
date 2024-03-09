@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack-a-Mole Game</title>
+    <style>
+        .mole {
+            width: 100px;
+            height: 100px;
+            background-color: brown;
+            border: 2px solid black;
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Whack-a-Mole Game</h1>
+    <div id="score">Score: 0</div>
+    <div id="mole1" class="mole">Mole 1</div>
+    <div id="mole2" class="mole">Mole 2</div>
+    <div id="mole3" class="mole">Mole 3</div>
+
+    <script>
+        // JavaScript code goes here
+        function startGame() {
+            let score = 0;
+            let intervalId;
+
+            function generateRandomMole() {
+                return Math.floor(Math.random() * 3) + 1;
+            }
+
+            function showMole(moleNumber) {
+                console.log(`Mole ${moleNumber} appeared!`);
+
+                // Select the mole element using its moleNumber and add a click event listener
+                const moleElement = document.getElementById(`mole${moleNumber}`);
+                moleElement.addEventListener('click', () => {
+                    whackMole(moleNumber);
+                });
+
+                setTimeout(() => {
+                    console.log(`Mole ${moleNumber} disappeared`);
+                    // Remove the click event listener after the mole disappears
+                    moleElement.removeEventListener('click', () => {
+                        whackMole(moleNumber);
+                    });
+                }, 9000);
+            }
+
+            function whackMole(moleNumber) {
+                console.log(`You whacked Mole ${moleNumber}!`);
+                score += 10;
+                // Update the score display
+                updateScore();
+            }
+
+            function updateScore() {
+                const scoreElement = document.getElementById('score');
+                scoreElement.textContent = `Score: ${score}`;
+            }
+
+            function gameOver() {
+                clearInterval(intervalId);
+                console.log(`Game over! Your score: ${score}`);
+            }
+
+            // Start the game interval
+            intervalId = setInterval(() => {
+                const moleNumber = generateRandomMole();
+                showMole(moleNumber);
+            }, 1000);
+
+            // Set a timeout for game over
+            setTimeout(() => {
+                gameOver();
+            }, 10000);
+        }
+
+        // Call startGame when the page is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            startGame();
+        });
+    </script>
+</body>
+</html>
